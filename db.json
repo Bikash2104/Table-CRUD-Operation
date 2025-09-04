@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "username": "johnd",
+      "email": "john@example.com",
+      "phone": "1234567890",
+      "website": "https://example.com",
+      "isActive": true,
+      "skills": [
+        "React",
+        "Redux"
+      ],
+      "availableSlots": [
+        "2025-09-10T10:00:00.000Z"
+      ],
+      "address": {
+        "street": "Main St",
+        "city": "NYC",
+        "zipcode": "10001"
+      },
+      "company": {
+        "name": "Tech Corp"
+      },
+      "role": "Editor"
+    },
+    {
+      "id": "7972",
+      "name": "SalesManager",
+      "username": "bibab4_R",
+      "email": "apollohopitals1@gmail.com",
+      "phone": "1234567890",
+      "website": "http://sunrise.com",
+      "isActive": true,
+      "skills": [
+        ""
+      ],
+      "availableSlots": [
+        ""
+      ],
+      "address": {
+        "street": "Main St",
+        "city": "fdfdfd3",
+        "zipcode": "10001"
+      },
+      "company": {
+        "name": ""
+      },
+      "role": "Editor"
+    }
+  ]
+}
