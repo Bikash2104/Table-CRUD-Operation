@@ -15,3 +15,10 @@ export const updateUserApi = (id: number | string, user: any) =>
 
 export const deleteUserApi = (id: number | string) =>
   api.delete(`/users/${id}`);
+export const getUsersPaginated = (page: number, limit: number) =>
+  api.get(`/users`, {
+    params: {
+      _page: page, // which page
+      _limit: limit, // items per page
+    },
+  });

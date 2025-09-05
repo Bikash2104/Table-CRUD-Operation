@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Pencil, Trash2 } from "lucide-react";
@@ -9,11 +8,16 @@ import "./UserList.scss";
 
 const UserList = () => {
   const dispatch = useAppDispatch();
-  const { data, loading } = useAppSelector((state) => state.users);
+  const { data, loading, total } = useAppSelector((state) => state.users);
+  console.log(data);
+
+  // 🔹 Pagination state
+  const [page, setPage] = useState(1);
+  const limit = 2; // items per page
 
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    dispatch(fetchUsers({ page, limit })); // pass page + limit
+  }, [dispatch, page]);
 
   if (loading) {
     return (
@@ -22,6 +26,11 @@ const UserList = () => {
       </div>
     );
   }
+  console.log(total);
+  // 🔹 Calculate total pages
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  console.log(totalPages);
+  console.log(Array.from({ length: totalPages }, (_, i) => i + 1));
 
   return (
     <div className="user-container">
@@ -103,15 +112,36 @@ const UserList = () => {
           </tbody>
         </table>
 
+        {/* 🔹 Pagination Section */}
         <div className="pagination">
           <p>
-            Showing {data.length} of {data.length} entries
+            Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)}{" "}
+            of {total} entries
           </p>
           <div className="pagination-buttons">
-            <button>Previous</button>
-            <button className="active">1</button>
-            <button>2</button>
-            <button>Next</button>
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page === 1}
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
+              <button
+                key={pg}
+                className={page === pg ? "active" : ""}
+                onClick={() => setPage(pg)}
+              >
+                {pg}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              disabled={page === totalPages}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
