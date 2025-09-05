@@ -164,45 +164,102 @@
 
 // export default usersSlice.reducer;
 
+// src/redux/usersSlice.ts
+// src/redux/usersSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = "http://localhost:4000/users";
 
-// 🔹 Fetch users with pagination
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  [key: string]: any;
+};
+
+type UserState = {
+  data: User[];
+  loading: boolean;
+  error: string | null;
+  total: number;
+};
+
+const initialState: UserState = {
+  data: [],
+  loading: false,
+  error: null,
+  total: 0,
+};
+
+// export const fetchUsers = createAsyncThunk(
+//   "users/fetchUsers",
+//   async ({ page, limit }: { page: number; limit: number }) => {
+//     const res = await axios.get<User[]>(API_URL, {
+//       params: { _page: page, _limit: limit },
+//     });
+
+//     console.log("API URL:", API_URL);
+//     console.log("Request params:", { page, limit });
+//     console.log("Response data:", res.data);
+
+//     let total = Number.parseInt(res.headers["x-total-count"] ?? "NaN", 10);
+//     if (Number.isNaN(total)) {
+//       const all = await axios.get<User[]>(API_URL);
+//       total = all.data.length;
+//     }
+
+//     console.log("Total count:", total);
+
+//     return { data: res.data, total };
+//   }
+// );
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async ({ page, limit }: { page: number; limit: number }) => {
-    const res = await axios.get(API_URL, {
-      params: { _page: page, _limit: limit },
+  async ({
+    page,
+    limit,
+    search = "",
+  }: {
+    page: number;
+    limit: number;
+    search?: string;
+  }) => {
+    const res = await axios.get<User[]>(API_URL, {
+      params: { _page: page, _limit: limit, q: search },
     });
 
-    console.log("Fetched Headers:", res.headers); // 👀 debug
-    console.log("Fetched Data:", res.data);
+    // const total = parseInt(res.headers["x-total-count"], 10) || 0;
 
-    return {
-      data: res.data,
-      total: parseInt(res.headers["x-total-count"], 10) || 0, // use real header
-    };
+    let total = Number.parseInt(res.headers["x-total-count"] ?? "NaN", 10);
+    if (Number.isNaN(total)) {
+      const all = await axios.get<User[]>(API_URL);
+      total = all.data.length;
+    }
+
+    return { data: res.data, total };
   }
 );
 
-export const addUser = createAsyncThunk("users/addUser", async (user: any) => {
-  const res = await axios.post(API_URL, user);
-  return res.data;
-});
+export const addUser = createAsyncThunk(
+  "users/addUser",
+  async (user: Omit<User, "id">) => {
+    const res = await axios.post<User>(API_URL, user);
+    return res.data;
+  }
+);
 
 export const updateUser = createAsyncThunk(
   "users/updateUser",
-  async (user: any) => {
-    const res = await axios.patch(`${API_URL}/${user.id}`, user);
+  async (user: User) => {
+    const res = await axios.patch<User>(`${API_URL}/${user.id}`, user);
     return res.data;
   }
 );
 
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
-  async (id: string) => {
+  async (id: number | string) => {
     await axios.delete(`${API_URL}/${id}`);
     return id;
   }
@@ -210,18 +267,13 @@ export const deleteUser = createAsyncThunk(
 
 const usersSlice = createSlice({
   name: "users",
-  initialState: {
-    data: [] as any[],
-    loading: false,
-    error: "",
-    total: 0,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch users
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
@@ -230,25 +282,21 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failed to fetch users";
+        state.error = action.error.message ?? "Failed to fetch users";
       })
-
-      // Add user
       .addCase(addUser.fulfilled, (state, action) => {
         state.data.push(action.payload);
-        state.total += 1;
       })
-
-      // Update user
       .addCase(updateUser.fulfilled, (state, action) => {
-        const idx = state.data.findIndex((u) => u.id === action.payload.id);
+        const idx = state.data.findIndex(
+          (u) => String(u.id) === String(action.payload.id)
+        );
         if (idx !== -1) state.data[idx] = action.payload;
       })
-
-      // Delete user
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.data = state.data.filter((u) => u.id !== action.payload);
-        state.total -= 1;
+        state.data = state.data.filter(
+          (u) => String(u.id) !== String(action.payload)
+        );
       });
   },
 });

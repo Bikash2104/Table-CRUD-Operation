@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import UserList from "./pages/UserList";
 import UserForm from "./pages/AddEmployee/UserForm";
+import UserViewPage from "./pages/UserViewDetails";
 
 function App() {
   return (
@@ -49,7 +50,9 @@ function App() {
           />
         }
       />
+      <Route path="/view/:id" element={<UserViewPage />} />
     </Routes>
+
     // </Router>
   );
 }

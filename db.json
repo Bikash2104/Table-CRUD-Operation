@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "name": "John Doe",
       "username": "johnd",
       "email": "john@example.com",
@@ -21,7 +21,7 @@
       "role": "Frontend Developer"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Alice Johnson",
       "username": "alicej",
       "email": "alice@example.com",
@@ -41,7 +41,7 @@
       "role": "Backend Developer"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Michael Smith",
       "username": "msmith",
       "email": "michael@example.com",
@@ -61,7 +61,7 @@
       "role": "Fullstack Developer"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "Sophia Brown",
       "username": "sophiab",
       "email": "sophia@example.com",
@@ -81,8 +81,8 @@
       "role": "Software Engineer"
     },
     {
-      "id": "5",
-      "name": "David Wilson",
+      "id": 5,
+      "name": "David Wilsons",
       "username": "davidw",
       "email": "david@example.com",
       "phone": "2223334444",
@@ -101,7 +101,7 @@
       "role": "Java Developer"
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "Emma Davis",
       "username": "emmad",
       "email": "emma@example.com",
@@ -141,7 +141,7 @@
       "role": "DevOps Engineer"
     },
     {
-      "id": "8",
+      "id": 8,
       "name": "Olivia Taylor",
       "username": "oliviat",
       "email": "olivia@example.com",
@@ -161,7 +161,7 @@
       "role": "Project Manager"
     },
     {
-      "id": "9",
+      "id": 9,
       "name": "Daniel Martinez",
       "username": "danm",
       "email": "daniel@example.com",
@@ -181,7 +181,7 @@
       "role": "Go Developer"
     },
     {
-      "id": "10",
+      "id": 10,
       "name": "Liam White",
       "username": "liamw",
       "email": "liam@example.com",
