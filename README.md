@@ -1,69 +1,47 @@
-# React + TypeScript + Vite
+## MERN User Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A user management system built with React (TypeScript), Redux Toolkit, Formik, Yup, and Material UI.
+It provides CRUD functionality with pagination, search, validation, and dynamic form fields for skills and available time slots.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1.User CRUD: Create, Read, Update, Delete users.
+2.ormik + Yup: Form handling with validation
+3.Material UI: Modern and responsive UI
+4.Redux Toolkit: State management with async thunks
+5.Dynamic Fields: Add/remove multiple skills & available slots
+6.Pagination + Search: Efficient data fetching with server-side pagination
+7.Active/Inactive toggle for users
+8.Company & Address details
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.Frontend: React (TypeScript), Redux Toolkit, Formik, Yup, Material UI
+2.Backend: JSON Server (mock API @ http://localhost:4000/users)
+3.State Management: Redux Toolkit with async thunks
+4.Validation: Yup schema
 
-```js
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+## API Endpoints (JSON Server)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Base URL: http://localhost:4000/users
+GET /users?\_page=1&\_limit=5&q=search → Get paginated users
+GET /users/:id → Get user by ID
+POST /users → Create new user
+PUT /users/:id → Update user
+PATCH /users/:id → Partial update
+DELETE /users/:id → Delete user
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+## Getting Started
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.Clone repo
+git clone <your-repo-url>
+cd <project-folder>
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+2. Install dependencies
+   npm install
 
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+3. Run JSON Server (mock backend)
+   npx json-server --watch db.json --port 4000
+
+4. Start frontend
+   npm run dev
