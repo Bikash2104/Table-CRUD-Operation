@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import {
   TextField,
@@ -11,16 +11,16 @@ import {
   Typography,
   FormControl,
   FormLabel,
+  Grid,
 } from "@mui/material";
-import { Grid } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   createUser,
   updateUserApi,
   getUserById,
-  // User,
 } from "../../apiservice/Apifile";
 import "./UserStyle.scss";
+import { Trash2 } from "lucide-react";
 
 const validationSchema = Yup.object({
   name: Yup.string().min(3).required("Name is required"),
@@ -33,7 +33,39 @@ const validationSchema = Yup.object({
     city: Yup.string().required("City is required"),
     zipcode: Yup.string().required("Zipcode is required"),
   }),
+  company: Yup.object({
+    name: Yup.string().required("Company name is required"),
+  }),
+  skills: Yup.array().of(
+    Yup.string().min(2, "Skill must be at least 2 characters").max(10)
+  ),
+  availableSlots: Yup.array().of(
+    Yup.string().test("is-future-date", "Date must be in the future", (value) =>
+      value ? new Date(value) > new Date() : true
+    )
+  ),
 });
+
+interface User {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  website: string;
+  isActive: boolean;
+  skills: string[];
+  availableSlots: string[];
+  address: {
+    street: string;
+    city: string;
+    zipcode: string;
+  };
+  company: {
+    name: string;
+  };
+  role: "Admin" | "Editor" | "Viewer";
+}
 
 interface UserFormProps {
   initialValues: Partial<User>;
@@ -79,7 +111,7 @@ const UserForm: React.FC<UserFormProps> = ({
   return (
     <Paper elevation={3} className="user-form">
       <Typography variant="h5" gutterBottom align="center" fontWeight="bold">
-        {isEdit ? "Edit User" : "Create User"}
+        {isEdit ? "Edit Employee Details" : "Enter Employee Details"}
       </Typography>
 
       {error && (
@@ -97,7 +129,8 @@ const UserForm: React.FC<UserFormProps> = ({
         {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
             <Grid container spacing={4}>
-              <Grid item size={6} sx={{ gap: 2 }}>
+              {/* Left side */}
+              <Grid item size={6}>
                 <FormControl fullWidth>
                   <FormLabel className="field-label">Name</FormLabel>
                   <TextField
@@ -150,9 +183,7 @@ const UserForm: React.FC<UserFormProps> = ({
                     helperText={touched.phone && errors.phone}
                   />
                 </FormControl>
-              </Grid>
 
-              <Grid item size={6} sx={{ gap: 2 }}>
                 <FormControl fullWidth>
                   <FormLabel className="field-label">Website</FormLabel>
                   <TextField
@@ -163,7 +194,71 @@ const UserForm: React.FC<UserFormProps> = ({
                     onBlur={handleBlur}
                   />
                 </FormControl>
+                <FormControl fullWidth>
+                  <FormLabel className="field-label">Available Slots</FormLabel>
+                  <FieldArray name="availableSlots">
+                    {({ push, remove }) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                        }}
+                      >
+                        {(values.availableSlots || []).map((slot, index) => (
+                          <div
+                            key={index}
+                            style={{ display: "flex", gap: "10px" }}
+                          >
+                            <TextField
+                              fullWidth
+                              type="datetime-local"
+                              name={`availableSlots.${index}`}
+                              value={slot}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              error={
+                                touched.availableSlots?.[index] &&
+                                Boolean(errors.availableSlots?.[index])
+                              }
+                              helperText={
+                                touched.availableSlots?.[index] &&
+                                errors.availableSlots?.[index]
+                              }
+                            />
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Trash2 onClick={() => remove(index)} size={18} />
+                            </div>
+                          </div>
+                        ))}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "flex-end",
+                          }}
+                        >
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => push("")}
+                          >
+                            Add Slot
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </FieldArray>
+                </FormControl>
+              </Grid>
 
+              <Grid item size={6}>
                 <FormControl fullWidth>
                   <FormLabel className="field-label">Role</FormLabel>
                   <TextField
@@ -198,46 +293,116 @@ const UserForm: React.FC<UserFormProps> = ({
                     }
                   />
                 </FormControl>
+                <FormControl fullWidth>
+                  <FormLabel className="field-label">Company Name</FormLabel>
+                  <TextField
+                    fullWidth
+                    name="company.name"
+                    value={values.company?.name || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      touched.company?.name && Boolean(errors.company?.name)
+                    }
+                    helperText={touched.company?.name && errors.company?.name}
+                  />
+                </FormControl>
 
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <FormControl fullWidth>
-                      <FormLabel className="field-label">City</FormLabel>
-                      <TextField
-                        fullWidth
-                        name="address.city"
-                        value={values.address?.city || ""}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={
-                          touched.address?.city && Boolean(errors.address?.city)
-                        }
-                        helperText={
-                          touched.address?.city && errors.address?.city
-                        }
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl fullWidth>
-                      <FormLabel className="field-label">Zipcode</FormLabel>
-                      <TextField
-                        fullWidth
-                        name="address.zipcode"
-                        value={values.address?.zipcode || ""}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={
-                          touched.address?.zipcode &&
-                          Boolean(errors.address?.zipcode)
-                        }
-                        helperText={
-                          touched.address?.zipcode && errors.address?.zipcode
-                        }
-                      />
-                    </FormControl>
-                  </Grid>
-                </Grid>
+                <FormControl fullWidth>
+                  <FormLabel className="field-label">City</FormLabel>
+                  <TextField
+                    fullWidth
+                    name="address.city"
+                    value={values.address?.city || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      touched.address?.city && Boolean(errors.address?.city)
+                    }
+                    helperText={touched.address?.city && errors.address?.city}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <FormLabel className="field-label">Zipcode</FormLabel>
+                  <TextField
+                    fullWidth
+                    name="address.zipcode"
+                    value={values.address?.zipcode || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={
+                      touched.address?.zipcode &&
+                      Boolean(errors.address?.zipcode)
+                    }
+                    helperText={
+                      touched.address?.zipcode && errors.address?.zipcode
+                    }
+                  />
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <FormLabel className="field-label">Skills</FormLabel>
+                  <FieldArray name="skills">
+                    {({ push, remove }) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                        }}
+                      >
+                        {(values.skills || []).map((skill, index) => (
+                          <div
+                            key={index}
+                            style={{ display: "flex", gap: "10px" }}
+                          >
+                            <TextField
+                              fullWidth
+                              name={`skills.${index}`}
+                              value={skill}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              placeholder="Enter skill"
+                              error={
+                                touched.skills?.[index] &&
+                                Boolean(errors.skills?.[index])
+                              }
+                              helperText={
+                                touched.skills?.[index] &&
+                                errors.skills?.[index]
+                              }
+                            />
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Trash2 onClick={() => remove(index)} size={18} />
+                            </div>
+                          </div>
+                        ))}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "flex-end",
+                          }}
+                        >
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => push("")}
+                          >
+                            Add Skill
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </FieldArray>
+                </FormControl>
 
                 <FormControlLabel
                   control={
@@ -249,17 +414,30 @@ const UserForm: React.FC<UserFormProps> = ({
                   }
                   label="Active User"
                 />
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  disabled={loading}
-                >
-                  {isEdit ? "Update User" : "Create User"}
-                </Button>
               </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "20px",
+              }}
+            >
+              <Link to={"/"}>
+                <Button variant="contained" color="primary">
+                  Back
+                </Button>
+              </Link>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={loading}
+              >
+                {isEdit ? "Update User" : "Create User"}
+              </Button>
             </Grid>
           </Form>
         )}

@@ -5,14 +5,14 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchUsers, deleteUser } from "../redux/usersSlice";
 import "./UserList.scss";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 const UserList = () => {
   const dispatch = useAppDispatch();
   const { data, loading, total } = useAppSelector((state) => state.users);
 
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 3;
 
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(search);
@@ -60,14 +60,13 @@ const UserList = () => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="user-table-wrapper">
         <table className="user-table">
           <thead>
             <tr>
-              <th>
+              {/* <th>
                 <input type="checkbox" />
-              </th>
+              </th> */}
               <th>Name</th>
               <th>Email</th>
               <th>Address</th>
@@ -88,9 +87,9 @@ const UserList = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <td>
+                {/* <td>
                   <input type="checkbox" />
-                </td>
+                </td> */}
                 <td className="name">{u.name}</td>
                 <td>{u.email}</td>
                 <td>
@@ -110,8 +109,19 @@ const UserList = () => {
                     .join(", ")}
                 </td>
                 <td>{u.company?.name}</td>
-                <td className="actions">
-                  <Link to={`/edit/${u.id}`} className="edit">
+                <td
+                  style={{ display: "flex", justifyContent: "center" }}
+                  className="actions"
+                >
+                  <Link
+                    to={`/edit/${u.id}`}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    className="edit"
+                  >
                     <Pencil size={18} />
                   </Link>
                   <button

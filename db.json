@@ -1,15 +1,22 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "username": "johnd",
       "email": "john@example.com",
       "phone": "1234567890",
       "website": "https://example.com",
       "isActive": true,
-      "skills": ["React", "Redux"],
-      "availableSlots": ["2025-09-10T10:00:00.000Z"],
+      "skills": [
+        "React",
+        "Redux",
+        "Javascript"
+      ],
+      "availableSlots": [
+        "2025-09-20T12:54",
+        "2025-10-24T12:54"
+      ],
       "address": {
         "street": "Main St",
         "city": "New York",
@@ -18,18 +25,25 @@
       "company": {
         "name": "Tech Corp"
       },
-      "role": "Frontend Developer"
+      "role": "Editor"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Alice Johnson",
       "username": "alicej",
       "email": "alice@example.com",
       "phone": "9876543210",
       "website": "http://alice.dev",
       "isActive": false,
-      "skills": ["Node.js", "Express", "MongoDB"],
-      "availableSlots": ["2025-09-12T14:00:00.000Z"],
+      "skills": [
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ],
+      "availableSlots": [
+        "2025-09-20T12:54",
+        "2025-09-27T12:54"
+      ],
       "address": {
         "street": "Broadway",
         "city": "Chicago",
@@ -38,18 +52,24 @@
       "company": {
         "name": "Cloud Systems"
       },
-      "role": "Backend Developer"
+      "role": "Admin"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Michael Smith",
       "username": "msmith",
       "email": "michael@example.com",
       "phone": "5554443333",
       "website": "http://msmith.com",
       "isActive": true,
-      "skills": ["Angular", "TypeScript", "RxJS"],
-      "availableSlots": ["2025-09-15T09:30:00.000Z"],
+      "skills": [
+        "Angular",
+        "TypeScript",
+        "RxJS"
+      ],
+      "availableSlots": [
+        "2025-09-19T12:54"
+      ],
       "address": {
         "street": "Lakeview Ave",
         "city": "Los Angeles",
@@ -58,18 +78,24 @@
       "company": {
         "name": "NextGen Solutions"
       },
-      "role": "Fullstack Developer"
+      "role": "Viewer"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Sophia Brown",
       "username": "sophiab",
       "email": "sophia@example.com",
       "phone": "1112223333",
       "website": "http://sophia.me",
       "isActive": true,
-      "skills": ["Python", "Django", "REST APIs"],
-      "availableSlots": ["2025-09-20T11:00:00.000Z"],
+      "skills": [
+        "Python",
+        "Django",
+        "REST APIs"
+      ],
+      "availableSlots": [
+        "2025-09-20T11:00:00.000Z"
+      ],
       "address": {
         "street": "Market St",
         "city": "San Francisco",
@@ -81,15 +107,21 @@
       "role": "Software Engineer"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "David Wilsons",
       "username": "davidw",
       "email": "david@example.com",
       "phone": "2223334444",
       "website": "http://david.io",
       "isActive": false,
-      "skills": ["Java", "Spring Boot", "Hibernate"],
-      "availableSlots": ["2025-09-18T16:00:00.000Z"],
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "Hibernate"
+      ],
+      "availableSlots": [
+        "2025-09-18T16:00:00.000Z"
+      ],
       "address": {
         "street": "King St",
         "city": "Seattle",
@@ -101,15 +133,21 @@
       "role": "Java Developer"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Emma Davis",
       "username": "emmad",
       "email": "emma@example.com",
       "phone": "3334445555",
       "website": "http://emma.codes",
       "isActive": true,
-      "skills": ["UI/UX Design", "Figma", "Sketch"],
-      "availableSlots": ["2025-09-22T13:00:00.000Z"],
+      "skills": [
+        "UI/UX Design",
+        "Figma",
+        "Sketch"
+      ],
+      "availableSlots": [
+        "2025-09-22T13:00:00.000Z"
+      ],
       "address": {
         "street": "Park Ave",
         "city": "Boston",
@@ -128,8 +166,15 @@
       "phone": "4445556666",
       "website": "http://james.dev",
       "isActive": true,
-      "skills": ["DevOps", "AWS", "Docker", "Kubernetes"],
-      "availableSlots": ["2025-09-25T08:00:00.000Z"],
+      "skills": [
+        "DevOps",
+        "AWS",
+        "Docker",
+        "Kubernetes"
+      ],
+      "availableSlots": [
+        "2025-09-25T08:00:00.000Z"
+      ],
       "address": {
         "street": "Ocean Dr",
         "city": "Miami",
@@ -141,15 +186,21 @@
       "role": "DevOps Engineer"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Olivia Taylor",
       "username": "oliviat",
       "email": "olivia@example.com",
       "phone": "5556667777",
       "website": "http://olivia.com",
       "isActive": false,
-      "skills": ["Project Management", "Scrum", "Agile"],
-      "availableSlots": ["2025-09-28T15:30:00.000Z"],
+      "skills": [
+        "Project Management",
+        "Scrum",
+        "Agile"
+      ],
+      "availableSlots": [
+        "2025-09-28T15:30:00.000Z"
+      ],
       "address": {
         "street": "Hill St",
         "city": "Denver",
@@ -161,15 +212,21 @@
       "role": "Project Manager"
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Daniel Martinez",
       "username": "danm",
       "email": "daniel@example.com",
       "phone": "6667778888",
       "website": "http://daniel.dev",
       "isActive": true,
-      "skills": ["Go", "Microservices", "gRPC"],
-      "availableSlots": ["2025-09-30T12:00:00.000Z"],
+      "skills": [
+        "Go",
+        "Microservices",
+        "gRPC"
+      ],
+      "availableSlots": [
+        "2025-09-30T12:00:00.000Z"
+      ],
       "address": {
         "street": "Elm St",
         "city": "Austin",
@@ -181,15 +238,21 @@
       "role": "Go Developer"
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Liam White",
       "username": "liamw",
       "email": "liam@example.com",
       "phone": "7778889999",
       "website": "http://liam.dev",
       "isActive": true,
-      "skills": ["AI", "ML", "TensorFlow"],
-      "availableSlots": ["2025-10-02T17:00:00.000Z"],
+      "skills": [
+        "AI",
+        "ML",
+        "TensorFlow"
+      ],
+      "availableSlots": [
+        "2025-10-02T17:00:00.000Z"
+      ],
       "address": {
         "street": "Tech Blvd",
         "city": "Houston",

@@ -64,7 +64,7 @@ const UserViewPage = () => {
         </Link>
         <Link to={`/edit/${user.id}`}>
           <Button variant="contained" color="primary">
-            Edit
+            Editl
           </Button>
         </Link>
       </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = "http://localhost:4000/users";
 
 type User = {
-  id: number;
+  id: number | string;
   name: string;
   email: string;
   [key: string]: any;
@@ -35,14 +35,16 @@ export const fetchUsers = createAsyncThunk(
     limit: number;
     search?: string;
   }) => {
-    const res = await axios.get<User[]>(API_URL, {
-      params: { _page: page, _limit: limit, q: search },
-    });
+    const params: any = { _page: page, _limit: limit };
+    if (search.trim()) {
+      params.q = search.trim();
+    }
 
-    // const total = parseInt(res.headers["x-total-count"], 10) || 0;
+    const res = await axios.get<User[]>(API_URL, { params });
 
     let total = Number.parseInt(res.headers["x-total-count"] ?? "NaN", 10);
     if (Number.isNaN(total)) {
+      // fallback if header missing
       const all = await axios.get<User[]>(API_URL);
       total = all.data.length;
     }
@@ -96,6 +98,7 @@ const usersSlice = createSlice({
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.data.push(action.payload);
+        state.total += 1;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         const idx = state.data.findIndex(
@@ -107,6 +110,7 @@ const usersSlice = createSlice({
         state.data = state.data.filter(
           (u) => String(u.id) !== String(action.payload)
         );
+        state.total -= 1;
       });
   },
 });

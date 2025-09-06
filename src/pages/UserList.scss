@@ -1,5 +1,5 @@
 .user-container {
-  width: 100%;
+  width: 95%;
   margin: 2rem auto;
   padding: 1rem;
 }
@@ -118,9 +118,16 @@
     text-transform: uppercase;
     font-size: 0.9rem;
   }
+  thead tr th {
+    padding: 20px;
+  }
 
   tbody tr:hover {
     background: #f1f5ff;
+  }
+
+  tbody tr td {
+    text-align: center;
   }
 
   .name {
