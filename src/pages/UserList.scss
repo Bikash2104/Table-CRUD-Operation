@@ -43,9 +43,8 @@
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 15px; // more spacing between search & button
+    gap: 15px;
 
-    // 🔹 Search box styling
     .search-box {
       input {
         padding: 8px 12px;

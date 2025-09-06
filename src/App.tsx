@@ -52,8 +52,6 @@ function App() {
       />
       <Route path="/view/:id" element={<UserViewPage />} />
     </Routes>
-
-    // </Router>
   );
 }
 
